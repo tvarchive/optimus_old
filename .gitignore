@@ -1,0 +1,8 @@
+build
+.idea
+.gradle
+out
+optimus.iml
+gradle.properties
+gradle
+
