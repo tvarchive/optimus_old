@@ -17,40 +17,26 @@
 
 package com.testvagrant.optimus.helpers;
 
+import com.testvagrant.commons.exceptions.DeviceMatchingException;
 import com.testvagrant.commons.exceptions.OptimusException;
-import com.testvagrant.devicemanagement.io.MongoReader;
 import com.testvagrant.optimus.device.OptimusTestBase;
 import com.testvagrant.optimus.register.DeviceRegistrar;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
-
 public class DeviceHelperTest extends OptimusTestBase {
-
-
-    @InjectMocks
-    MongoReader mongoReader = Mockito.spy(new MongoReader());
-
-    @Mock
-    DeviceHelper deviceHelper;
-
-    @Before
-    public void setup() {
-        new DeviceRegistrar().setUpDevices(deviceMatrix);
-        deviceHelper = Mockito.spy(new DeviceHelper(getAppJson("singleApp_Local_Sequential_Android_Emulator.json")));
-        when(mongoReader.getAllDevices()).thenReturn(getMockedDevices());
-    }
 
     @Test
     public void shouldBeAbleToReadConnectedDevices() throws OptimusException {
-        List<String> udidOfConnectedDevices = deviceHelper.getConnectedDevicesMatchingRunCriteria(mongoReader);
+        final DeviceRegistrar deviceRegistrar = new DeviceRegistrar();
+        deviceRegistrar.setUpDevices(deviceMatrix);
+
+        List<String> udidOfConnectedDevices = new DeviceHelper(getAppJson("singleApp_Local_Sequential_Android_Emulator.json")).getConnectedDevicesMatchingRunCriteria();
         Assert.assertTrue(udidOfConnectedDevices.size() > 0);
+        for (String connectedDevice : udidOfConnectedDevices) {
+            System.out.println(connectedDevice);
+        }
     }
 }

@@ -21,8 +21,8 @@ import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.entities.SmartBOT;
 import com.testvagrant.commons.exceptions.DeviceEngagedException;
 import com.testvagrant.commons.exceptions.DeviceMatchingException;
-import com.testvagrant.devicemanagement.io.MongoReader;
-import com.testvagrant.devicemanagement.io.MongoWriter;
+import com.testvagrant.monitor.radiator.MongoReader;
+import com.testvagrant.monitor.radiator.MongoWriter;
 import com.testvagrant.optimus.builder.SmartBOTBuilder;
 import com.testvagrant.optimus.helpers.ScenarioHelper;
 import com.testvagrant.optimus.parser.OptimusConfigParser;
@@ -53,6 +53,7 @@ public class OptimusController {
 
     private String appJson;
     private Scenario scenario;
+    private OptimusListener listener = new OptimusListener();
     private OptimusConfigParser optimusConfigParser;
 
     private static Logger logger = Logger.getLogger(OptimusController.class);
@@ -109,8 +110,17 @@ public class OptimusController {
         for (SmartBOT smartBOT : smartBOTs) {
             scenario.write(smartBOT.getDeviceUdid());
         }
+        if(optimusConfigParser.isMonitoring()) {
+            new Radiator(smartBOTs).notifyScenarioCompletion();
+            listener.stop();
+        }
 
         for (SmartBOT engagedBOT : smartBOTs) {
+            //TODO: Crashes throw array out of bounds exception if the stacktrace does not include an exception by app package.
+//            if (!engagedBOT.getRunsOn().equalsIgnoreCase("EMULATOR")) {
+////                new CrashMonitor(engagedBOT).captureCrashes();
+//
+//            }
             new MongoWriter().updateStatusToAvailableForDevice(engagedBOT.getDeviceUdid());
             logger.info(scenario + "---" + "The following BOT de-registered successfully -- " + engagedBOT.getDeviceUdid());
             engagedBOT.getDriver().quit();
@@ -124,10 +134,11 @@ public class OptimusController {
         }
     }
 
-    public  List<SmartBOT> registerSmartBOTs() throws IOException, InterruptedException, DeviceMatchingException, DeviceEngagedException {
+    public List<SmartBOT> registerSmartBOTs() throws IOException, InterruptedException, DeviceMatchingException, DeviceEngagedException {
         logger.info("Starting Scenario -- " + scenario.getName());
         List<SmartBOT> smartBOTs = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
+
         HashMap<String, DesiredCapabilities> appToDeviceMap = optimusConfigParser.mapOwnerToDesiredCapabilities();
 
         for (Map.Entry<String, DesiredCapabilities> entry : appToDeviceMap.entrySet()) {
@@ -164,6 +175,12 @@ public class OptimusController {
             new OnDevice(bot).clearADBLogs();
 
             logger.info(scenario + "---" + "BOT registered successfully for -- " + udid);
+        }
+
+        if(optimusConfigParser.isMonitoring()) {
+            new Radiator(smartBOTs).notifyScenarioStart();
+            listener.setSmartBOTs(smartBOTs);
+            listener.start();
         }
         return smartBOTs;
     }

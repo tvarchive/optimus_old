@@ -1,8 +1,9 @@
 build
 .idea
 .gradle
+gradle
 out
 optimus.iml
 gradle.properties
-gradle
+
 

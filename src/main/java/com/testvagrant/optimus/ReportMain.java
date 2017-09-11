@@ -19,17 +19,27 @@ package com.testvagrant.optimus;
 
 import com.testvagrant.commons.entities.reportParser.ExecutedScenario;
 import com.testvagrant.commons.utils.JsonUtil;
+import com.testvagrant.monitor.radiator.MongoWriter;
+import com.testvagrant.monitor.radiator.RecommendationWriter;
 import com.testvagrant.optimus.parser.OptimusConfigParser;
 import com.testvagrant.optimus.parser.ReportParser;
+import com.testvagrant.optimus.recommender.ExceptionCollator;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ReportMain {
 
     public static void main(String[] args) throws IOException {
         List<ExecutedScenario> scenarios = new ReportParser(new File("build/reports/cucumber")).parse();
+        if(monitoringIsOn()) {
+            new MongoWriter().updateExecutionDetailsFor(scenarios);
+            ExceptionCollator collator = new ExceptionCollator(scenarios);
+            Map<String, List<ExecutedScenario>> collate = collator.collate();
+            new RecommendationWriter().writeFailedScenariosByException(collate);
+        }
     }
 
 

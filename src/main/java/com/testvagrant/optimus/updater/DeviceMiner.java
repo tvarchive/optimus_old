@@ -27,7 +27,7 @@ import com.testvagrant.commons.exceptions.DeviceMatchingException;
 import com.testvagrant.commons.exceptions.NoSuchDeviceTypeException;
 import com.testvagrant.commons.exceptions.NoSuchPlatformException;
 import com.testvagrant.commons.exceptions.OptimusException;
-import com.testvagrant.mdb.utils.OSVersionMatcher;
+import com.testvagrant.optimus.utils.Commons;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -71,34 +71,34 @@ public class DeviceMiner {
         // get all devices based on platform - Android OR iOS
 
         ArrayList<DeviceDetails> devicesBasedOnPlatform = getDevicesBasedOnPlatform(platform);
-        if(devicesBasedOnPlatform.size()==0) {
-            throw new DeviceMatchingException(String.format("No devices found matching platform, %s. Check if you have devices connected for %s platform.",platform.getName(), platform.getName()));
+        if (devicesBasedOnPlatform.size() == 0) {
+            throw new DeviceMatchingException(String.format("No devices found matching platform, %s. Check if you have devices connected for %s platform.", platform.getName(), platform.getName()));
         }
 
         //whether physical device or simulator or any
         ArrayList<DeviceDetails> devicesBasedOnRunsOn = getDevicesRunningOn(testFeed, devicesBasedOnPlatform);
 
-        if(devicesBasedOnRunsOn.size()==0) {
-            if(runsOn.equals("any")) {
+        if (devicesBasedOnRunsOn.size() == 0) {
+            if (runsOn.equals("any")) {
                 throw new DeviceMatchingException("No devices, emulators or simulators found running on either android or IOS. Check if your devices are connected with debug mode on.");
             } else {
-                throw new DeviceMatchingException(String.format("No devices found running on %s, check if you have %ss connected",runsOn,runsOn));
+                throw new DeviceMatchingException(String.format("No devices found running on %s, check if you have %ss connected", runsOn, runsOn));
             }
 
         }
 
         ArrayList<DeviceDetails> devicesBasedOnDeviceName = getDevicesForDeviceName(capabilitiesMap, devicesBasedOnPlatform);
-        if(devicesBasedOnDeviceName.size()==0) {
-            throw new DeviceMatchingException(String.format("No devices found matching device name - '%s'",deviceName));
+        if (devicesBasedOnDeviceName.size() == 0) {
+            throw new DeviceMatchingException(String.format("No devices found matching device name - '%s'", deviceName));
         }
 
         ArrayList<DeviceDetails> devicesBasedOnVersion = getDevicesForPlatformVersion(capabilitiesMap, devicesBasedOnPlatform);
-        if(devicesBasedOnVersion.size()==0) {
-            throw new DeviceMatchingException(String.format("No devices found with platform version %s",platformVersion));
+        if (devicesBasedOnVersion.size() == 0) {
+            throw new DeviceMatchingException(String.format("No devices found with platform version %s", platformVersion));
         }
         ArrayList<DeviceDetails> devicesBasedOnUdid = getDeviceWithUdid(capabilitiesMap, devicesBasedOnPlatform);
-        if(devicesBasedOnUdid.size()==0) {
-            throw new DeviceMatchingException(String.format("No devices found with udid %s",udid));
+        if (devicesBasedOnUdid.size() == 0) {
+            throw new DeviceMatchingException(String.format("No devices found with udid %s", udid));
         }
 
         List<List<DeviceDetails>> combinedList = new ArrayList<>();
@@ -126,9 +126,9 @@ public class DeviceMiner {
         DeviceType deviceType = null;
         runsOn = ((String) testFeedMap.get("runsOn")).toUpperCase();
         try {
-            if(!runsOn.equalsIgnoreCase("any"))
+            if (!runsOn.equalsIgnoreCase("any"))
                 deviceType = DeviceType.valueOf(runsOn);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new NoSuchDeviceTypeException(runsOn);
         }
         return testFeedMap.get("runsOn").equals("any") ? devicesBasedOnPlatform : filterDevicesRunningOn(deviceType);
@@ -154,7 +154,7 @@ public class DeviceMiner {
     }
 
     private ArrayList<DeviceDetails> getDevicesForDeviceName(Map<String, Object> capabilitiesMap, ArrayList<DeviceDetails> devicesBasedOnPlatform) {
-        deviceName= (String) capabilitiesMap.get("deviceName");
+        deviceName = (String) capabilitiesMap.get("deviceName");
         if (deviceName == null)
             return devicesBasedOnPlatform;
         return getDevicesForDeviceName(deviceName);
@@ -168,17 +168,12 @@ public class DeviceMiner {
     }
 
     private ArrayList<DeviceDetails> getDevicesForPlatformVersion(String platformVersion) {
-            return deviceDetails.stream()
-                    .filter(d -> {
-                        try {
-                            OSVersion version = new OSVersionMatcher().getOSVersion(d.getPlatform(), platformVersion);
-                            return d.getOsVersion().getName().equals(version.getName());
-                        } catch (Exception e) {
-                            return false;
-                        }
-
-                    })
-                    .collect(Collectors.toCollection(ArrayList::new));
+        return deviceDetails.stream()
+                .filter(d -> {
+                    OSVersion version = new Commons().getOSVersion(platformVersion, d.getPlatform());
+                    return d.getOsVersion().equals(version);
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private ArrayList<DeviceDetails> getDevicesForDeviceName(String deviceName) {
@@ -208,7 +203,7 @@ public class DeviceMiner {
 
 
     private Platform getPlatform(Map<String, Object> testFeed) throws NoSuchPlatformException {
-        try{
+        try {
             return Platform.valueOf(((String) testFeed.get("platformName")).toUpperCase());
         } catch (Exception e) {
             throw new NoSuchPlatformException((String) testFeed.get("platformName"));

@@ -17,7 +17,7 @@
 
 package com.testvagrant.optimus.register;
 
-import com.testvagrant.devicemanagement.io.MongoWriter;
+import com.testvagrant.monitor.radiator.MongoWriter;
 import com.testvagrant.optimus.utils.DeviceMatrix;
 
 public class DeviceRegistrar {
@@ -30,6 +30,5 @@ public class DeviceRegistrar {
     public void setUpDevices(DeviceMatrix deviceMatrix) {
         new MongoWriter().insertDeviceList(deviceMatrix.getDeviceDetailsList());
     }
-
 
 }

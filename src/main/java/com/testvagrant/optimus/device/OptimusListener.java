@@ -18,30 +18,36 @@
 package com.testvagrant.optimus.device;
 
 import com.testvagrant.commons.entities.SmartBOT;
-import com.testvagrant.monitor.radiator.MongoWriter;
+import com.testvagrant.monitor.performance.ScenarioMonitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Radiator {
+public class OptimusListener {
 
-    public Radiator(List<SmartBOT> smartBOTs) {
+
+    private List<SmartBOT> smartBOTs = new ArrayList<>();
+    private List<ScenarioMonitor> scenarioMonitors = new ArrayList<>();
+
+
+    public void setSmartBOTs(List<SmartBOT> smartBOTs) {
         this.smartBOTs = smartBOTs;
     }
 
-    private List<SmartBOT> smartBOTs;
 
-    public void notifyScenarioStart() {
+    public void start() {
         for (SmartBOT smartBOT : smartBOTs) {
-            new MongoWriter().notifyBOTRegistration(smartBOT);
+            ScenarioMonitor scenarioMonitor = new ScenarioMonitor(smartBOT);
+            scenarioMonitors.add(scenarioMonitor);
+            scenarioMonitor.start();
         }
 
     }
 
-    public void notifyScenarioCompletion() {
-        for (SmartBOT smartBOT : smartBOTs) {
-            new MongoWriter().notifyScenarioCompletion(smartBOT);
+    public void stop() {
+        for (ScenarioMonitor monitor : scenarioMonitors) {
+            monitor.stop();
         }
 
     }
-
 }

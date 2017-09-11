@@ -50,7 +50,7 @@ public class OptimusConfigParser {
         return false;
     }
 
-    public synchronized HashMap<String, DesiredCapabilities> mapOwnerToDesiredCapabilities() throws IOException, DeviceEngagedException {
+    public HashMap<String, DesiredCapabilities> mapOwnerToDesiredCapabilities() throws IOException, DeviceEngagedException {
         HashMap<String, DesiredCapabilities> ownerToCapabilitiesMap = new HashMap();
         JSONArray testFeedArray = (JSONArray) jsonObject.get(TEST_FEED);
         for (int testFeedIterator = 0; testFeedIterator < testFeedArray.length(); testFeedIterator++) {

@@ -19,8 +19,8 @@ package com.testvagrant.optimus.device;
 
 import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.exceptions.DeviceEngagedException;
-import com.testvagrant.devicemanagement.io.MongoReader;
-import com.testvagrant.devicemanagement.io.MongoWriter;
+import com.testvagrant.monitor.radiator.MongoReader;
+import com.testvagrant.monitor.radiator.MongoWriter;
 import com.testvagrant.optimus.utils.Commons;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,7 +45,7 @@ public class DeviceFinder {
 
         DeviceDetails deviceDetails = null;
 
-        synchronized (testFeed) {
+        synchronized (this) {
             if (new Commons().isUDIDAvailable(testFeed)) {
                 deviceDetails = new MongoWriter().updateFirstAvailableDeviceToEngaged(new Commons().getUDID(testFeed));
             } else {

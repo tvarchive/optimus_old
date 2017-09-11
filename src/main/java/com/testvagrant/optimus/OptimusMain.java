@@ -17,8 +17,8 @@
 
 package com.testvagrant.optimus;
 
-import com.testvagrant.devicemanagement.core.MongoMain;
-import com.testvagrant.devicemanagement.exceptions.MongoInstanceException;
+import com.testvagrant.monitor.MongoMain;
+import com.testvagrant.monitor.exceptions.MongoInstanceException;
 import com.testvagrant.optimus.register.DeviceRegistrar;
 import com.testvagrant.optimus.utils.DeviceMatrix;
 
