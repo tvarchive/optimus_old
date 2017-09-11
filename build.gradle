@@ -30,7 +30,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
-    compile('com.testvagrant.optimusMonitor:optimusMonitor:2.1-SNAPSHOT')
+    compile('com.testvagrant.optimusMonitor:optimusMonitor:1.0-SNAPSHOT')
     compile 'com.testvagrant.mdb:mdb:1.0.1'
     compile group: 'org.apache.opennlp', name: 'opennlp-tools', version: '1.6.0'
     compile group: 'org.apache.opennlp', name: 'opennlp-uima', version: '1.6.0'
