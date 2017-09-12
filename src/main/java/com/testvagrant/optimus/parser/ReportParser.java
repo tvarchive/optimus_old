@@ -51,32 +51,34 @@ public class ReportParser {
         List<ExecutedScenario> scenarios = new ArrayList<>();
 
         for (File file : files) {
-            String fileContent = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
-            JsonArray featureArray = new JsonParser().parse(fileContent).getAsJsonArray();
+            if(!file.isDirectory()) {
+                String fileContent = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+                JsonArray featureArray = new JsonParser().parse(fileContent).getAsJsonArray();
 
 
-            for (JsonElement jsonElement : featureArray) {
-                Feature feature = new Feature(jsonElement.getAsJsonObject());
+                for (JsonElement jsonElement : featureArray) {
+                    Feature feature = new Feature(jsonElement.getAsJsonObject());
 
-                JsonArray scenarioArray = feature.getScenarioArray();
-                List<Step> backgroundStepsList = getBackgroundStepsIfPresent(feature);
+                    JsonArray scenarioArray = feature.getScenarioArray();
+                    List<Step> backgroundStepsList = getBackgroundStepsIfPresent(feature);
 
-                for (JsonElement element : scenarioArray) {
-                    if (!isBackground(element)) {
-                        String id = element.getAsJsonObject().get("id").getAsString();
-                        JsonArray steps = element.getAsJsonObject().get("steps").getAsJsonArray();
-                        List<Step> stepList = new ArrayList<>();
-                        stepList.addAll(backgroundStepsList);
-                        for (JsonElement step : steps) {
-                            stepList.add(getStepDetails(step));
+                    for (JsonElement element : scenarioArray) {
+                        if (!isBackground(element)) {
+                            String id = element.getAsJsonObject().get("id").getAsString();
+                            JsonArray steps = element.getAsJsonObject().get("steps").getAsJsonArray();
+                            List<Step> stepList = new ArrayList<>();
+                            stepList.addAll(backgroundStepsList);
+                            for (JsonElement step : steps) {
+                                stepList.add(getStepDetails(step));
+                            }
+
+                            scenarios.add(new ScenarioBuilder()
+                                    .withId(id)
+                                    .withSteps(stepList)
+                                    .withDeviceName(getDeviceName(steps))
+                                    .withEmbeddedScreen(getEmbeddedScreenshot(steps))
+                                    .build());
                         }
-
-                        scenarios.add(new ScenarioBuilder()
-                                .withId(id)
-                                .withSteps(stepList)
-                                .withDeviceName(getDeviceName(steps))
-                                .withEmbeddedScreen(getEmbeddedScreenshot(steps))
-                                .build());
                     }
                 }
             }

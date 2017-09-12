@@ -33,7 +33,7 @@ public class ReportParserTest {
 
     @Test
     public void foo() throws IOException {
-        List<ExecutedScenario> executedScenarios = new ReportParser(new File("src/test/resources/reports")).parse();
+        List<ExecutedScenario> executedScenarios = new ReportParser(new File("src/test/resources/reports/cucumber")).parse();
         for (ExecutedScenario executedScenario : executedScenarios) {
             Assert.assertNotNull(executedScenario);
         }
