@@ -52,9 +52,12 @@ public class OptimusConfigParser {
 
     public HashMap<String, DesiredCapabilities> mapOwnerToDesiredCapabilities() throws IOException, DeviceEngagedException {
         HashMap<String, DesiredCapabilities> ownerToCapabilitiesMap = new HashMap();
+
         JSONArray testFeedArray = (JSONArray) jsonObject.get(TEST_FEED);
         for (int testFeedIterator = 0; testFeedIterator < testFeedArray.length(); testFeedIterator++) {
+
             JSONObject testFeedJSON = (JSONObject) testFeedArray.get(testFeedIterator);
+            System.out.println("updated testFeed -- " + testFeedJSON.toString());
             DeviceDetails deviceDetails = new DeviceFinder().getAvailableDeviceAndUpdateToEngaged(testFeedJSON);
             DesiredCapabilities desiredCapabilities = new CapabilitiesBuilder(testFeedJSON, deviceDetails).buildCapabilities();
             ownerToCapabilitiesMap.put((String) testFeedJSON.get(BELONGS_TO), desiredCapabilities);

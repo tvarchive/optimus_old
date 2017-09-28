@@ -18,6 +18,7 @@
 package com.testvagrant.optimus.helpers;
 
 import cucumber.api.Scenario;
+import org.apache.commons.io.FilenameUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +34,11 @@ public class ScenarioHelper {
     }
 
     public String getUniqueScenarioName() {
+        System.out.println("Scenario id -- " + scenario.getId());
+        System.out.println("Scenario Name -- " + scenario.getName());
+//        return scenario.getName();
         String scenarioNameString = matcher.group(3);
-        if (Character.isDigit(scenarioNameString.charAt(scenarioNameString.length() - 1))&& scenarioNameString.contains(";;")) {
+        if (Character.isDigit(scenarioNameString.charAt(scenarioNameString.length() - 1)) && scenarioNameString.contains(";;")) {
             String outlineCount = scenarioNameString.split(";;")[1];
             return scenarioNameString.split(";;")[0] + "-" + outlineCount;
         }
@@ -43,12 +47,18 @@ public class ScenarioHelper {
 
     private Matcher getMatcher() {
         Pattern p = Pattern.compile("((.*?);)(.*)(;;[0-9+])?");
-        Matcher matcher = p.matcher(scenario.getId());
+        String id = scenario.getId();
+        String[] split = id.split(":");
+        String featureName = FilenameUtils.getBaseName(split[0]);
+        String lineNumber = split[1];
+        String name = scenario.getName();
+        String input = featureName + ";" + name + ";;" + lineNumber;
+        Matcher matcher = p.matcher(input);
 
+        System.out.println("unique scenario name -- " + input);
         matcher.find();
         return matcher;
     }
-
 
 
     public String getParentFeatureName() {

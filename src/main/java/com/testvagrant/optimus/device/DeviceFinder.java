@@ -31,7 +31,9 @@ import java.util.List;
 public class DeviceFinder {
     public DeviceDetails getAvailableDeviceAndUpdateToEngaged(JSONObject testFeed) throws DeviceEngagedException {
         List<DeviceDetails> deviceDetailsList = new MongoReader().getAllDevices();
+
         System.out.println("-------- All devices and there status --------");
+
         for (DeviceDetails deviceDetails : deviceDetailsList) {
             System.out.println(deviceDetails.getUdid() + " --- " + deviceDetails.getStatus());
         }
@@ -47,7 +49,9 @@ public class DeviceFinder {
 
         synchronized (this) {
             if (new Commons().isUDIDAvailable(testFeed)) {
-                deviceDetails = new MongoWriter().updateFirstAvailableDeviceToEngaged(new Commons().getUDID(testFeed));
+                String udid = new Commons().getUDID(testFeed);
+                System.out.println("Finding device in DB with udid - " + udid);
+                deviceDetails = new MongoWriter().updateFirstAvailableDeviceToEngaged(udid);
             } else {
                 deviceDetails = new MongoWriter().updateFirstAvailableDeviceToEngaged(jsonObject);
             }

@@ -26,6 +26,7 @@ import com.testvagrant.commons.entities.reportParser.Feature;
 import com.testvagrant.commons.entities.reportParser.Step;
 import com.testvagrant.optimus.builder.ScenarioBuilder;
 import com.testvagrant.optimus.builder.StepBuilder;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class ReportParser {
         List<ExecutedScenario> scenarios = new ArrayList<>();
 
         for (File file : files) {
-            if(!file.isDirectory()) {
+            if (!file.isDirectory()) {
                 String fileContent = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
                 JsonArray featureArray = new JsonParser().parse(fileContent).getAsJsonArray();
 
@@ -65,19 +66,26 @@ public class ReportParser {
                     for (JsonElement element : scenarioArray) {
                         if (!isBackground(element)) {
                             String id = element.getAsJsonObject().get("id").getAsString();
-                            JsonArray steps = element.getAsJsonObject().get("steps").getAsJsonArray();
+                            String deviceName = element.getAsJsonObject().get("before").getAsJsonArray().get(0).getAsJsonObject()
+                                    .get("output").getAsJsonArray().get(0).getAsString();
+                            JsonArray scenarioSteps = element.getAsJsonObject().get("steps").getAsJsonArray();
                             List<Step> stepList = new ArrayList<>();
                             stepList.addAll(backgroundStepsList);
-                            for (JsonElement step : steps) {
+                            for (JsonElement step : scenarioSteps) {
                                 stepList.add(getStepDetails(step));
                             }
 
-                            scenarios.add(new ScenarioBuilder()
-                                    .withId(id)
-                                    .withSteps(stepList)
-                                    .withDeviceName(getDeviceName(steps))
-                                    .withEmbeddedScreen(getEmbeddedScreenshot(steps))
-                                    .build());
+                            System.out.println("Scenario - " + id);
+                            System.out.println("Step count for this scenario - " + stepList.size());
+
+                            if (scenarioSteps.size() > 0) {
+                                scenarios.add(new ScenarioBuilder()
+                                        .withId(id)
+                                        .withSteps(stepList)
+                                        .withDeviceName(deviceName)
+                                        .withEmbeddedScreen(getEmbeddedScreenshot(scenarioSteps))
+                                        .build());
+                            }
                         }
                     }
                 }
@@ -91,8 +99,15 @@ public class ReportParser {
     private String getDeviceName(JsonArray steps) {
         JsonElement lastStep = steps.get(steps.size() - 1);
         JsonObject lastStepObject = lastStep.getAsJsonObject();
-        System.out.println("Last Step" + lastStepObject.get("name").getAsString());
-        JsonArray outputArray = lastStepObject.get("output").getAsJsonArray();
+        String stepName = lastStepObject.get("name").getAsString();
+        System.out.println("Last Step" + stepName);
+        JsonArray outputArray = null;
+        try {
+            outputArray = lastStepObject.get("output").getAsJsonArray();
+        } catch (Exception e) {
+            System.out.println("no output on step -" + stepName);
+            throw e;
+        }
         return outputArray.get(outputArray.size() - 1).getAsString();
     }
 
@@ -127,13 +142,13 @@ public class ReportParser {
 
     private void printDetails(List<ExecutedScenario> scenarios) {
         for (ExecutedScenario scenario : scenarios) {
-            System.out.println("----------------Scenario--------------");
-            System.out.println(scenario.getId() + "-----" + scenario.getDeviceName());
+//            System.out.println("----------------Scenario--------------");
+            System.out.println(scenario.getId() + "-----" + scenario.getDeviceName() + " -total step count- " + scenario.getSteps().size());
 
-            System.out.println("-----------------Steps-------------------");
-            for (Step step : scenario.getSteps()) {
-                System.out.println(step.getKeyword() + step.getName() + " ===== " + step.getStatus());
-            }
+//            System.out.println("-----------------Steps-------------------");
+//            for (Step step : scenario.getSteps()) {
+//                System.out.println(step.getKeyword() + step.getName() + " ===== " + step.getStatus());
+//            }
         }
     }
 

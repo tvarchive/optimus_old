@@ -62,7 +62,7 @@ public class OptimusController {
         this.scenario = scenario;
         validateAPPJson(appJson);
         this.appJson = prepareAppJson(appJson);
-        this.optimusConfigParser = new OptimusConfigParser(appJson);
+        this.optimusConfigParser = new OptimusConfigParser(this.appJson);
     }
 
     private void validateAPPJson(String appJson) {
@@ -102,35 +102,44 @@ public class OptimusController {
         JSONObject testFeed = (JSONObject) testFeedArray.get(0);
         JSONObject appiumServerCapabilities = (JSONObject) ((JSONObject) testFeed.get("optimusDesiredCapabilities")).get("appiumServerCapabilities");
         appiumServerCapabilities.put("udid", udid);
+
+        System.out.println("appJson updated with - " + udid);
+        System.out.println(jsonObject.toString());
         return jsonObject.toString();
     }
 
 
     public void deRegisterSmartBOTs(List<SmartBOT> smartBOTs) {
-        for (SmartBOT smartBOT : smartBOTs) {
-            scenario.write(smartBOT.getDeviceUdid());
-        }
-        if(optimusConfigParser.isMonitoring()) {
-            new Radiator(smartBOTs).notifyScenarioCompletion();
-            listener.stop();
-        }
+        stopScenarioListernerIfMonitoring(smartBOTs);
 
         for (SmartBOT engagedBOT : smartBOTs) {
             //TODO: Crashes throw array out of bounds exception if the stacktrace does not include an exception by app package.
 //            if (!engagedBOT.getRunsOn().equalsIgnoreCase("EMULATOR")) {
 ////                new CrashMonitor(engagedBOT).captureCrashes();
 //
-//            }
-            new MongoWriter().updateStatusToAvailableForDevice(engagedBOT.getDeviceUdid());
-            logger.info(scenario + "---" + "The following BOT de-registered successfully -- " + engagedBOT.getDeviceUdid());
-            engagedBOT.getDriver().quit();
-            AppiumDriverLocalService appiumService = null;
+//
+//  }
             try {
+                scenario.write(engagedBOT.getDeviceUdid());
+                logger.info(scenario + "---" + "The following BOT de-registered successfully -- " + engagedBOT.getDeviceUdid());
+                engagedBOT.getDriver().quit();
+                AppiumDriverLocalService appiumService = null;
+
                 appiumService = engagedBOT.getAppiumService();
                 appiumService.stop();
             } catch (Exception e) {
-                logger.warn("Appium server didn't stop properly for -- " + appiumService.getUrl(), e);
+                logger.warn("Appium server didn't stop properly for ", e);
+            } finally {
+                System.out.println("Trying to make Available - " + engagedBOT.getDeviceUdid());
+                new MongoWriter().updateStatusToAvailableForDevice(engagedBOT.getDeviceUdid());
             }
+        }
+    }
+
+    private void stopScenarioListernerIfMonitoring(List<SmartBOT> smartBOTs) {
+        if (optimusConfigParser.isMonitoring()) {
+            new Radiator(smartBOTs).notifyScenarioCompletion();
+            listener.stop();
         }
     }
 
@@ -172,12 +181,16 @@ public class OptimusController {
             byte[] deviceScreenshot = driver.getScreenshotAs(OutputType.BYTES);
             new MongoWriter().updateDeviceScreenshot(udid, deviceScreenshot);
             smartBOTs.add(bot);
+
+            for (SmartBOT smartBOT : smartBOTs) {
+                scenario.write(smartBOT.getDeviceUdid());
+            }
             new OnDevice(bot).clearADBLogs();
 
             logger.info(scenario + "---" + "BOT registered successfully for -- " + udid);
         }
 
-        if(optimusConfigParser.isMonitoring()) {
+        if (optimusConfigParser.isMonitoring()) {
             new Radiator(smartBOTs).notifyScenarioStart();
             listener.setSmartBOTs(smartBOTs);
             listener.start();
@@ -187,10 +200,10 @@ public class OptimusController {
 
 
     private String getRunsOnBasedOn(String udid) throws DeviceMatchingException {
-        System.out.println("UDID: "+udid);
+        System.out.println("UDID: " + udid);
         DeviceDetails deviceByUdid = null;
         deviceByUdid = new MongoReader().getDeviceByUdid(udid);
-        System.out.println("DeviceName" +deviceByUdid.getDeviceName());
+        System.out.println("DeviceName" + deviceByUdid.getDeviceName());
         return deviceByUdid.getDeviceType().name();
 
     }
@@ -226,9 +239,6 @@ public class OptimusController {
         }
         return new IOSDriver(url, capabilities);
     }
-
-
-
 
 
 }

@@ -40,6 +40,14 @@ public class ReportParserTest {
     }
 
     @Test
+    public void foo1() throws IOException {
+        List<ExecutedScenario> executedScenarios = new ReportParser(new File("src/test/resources/reports/cucumber")).parse();
+        for (ExecutedScenario executedScenario : executedScenarios) {
+            Assert.assertNotNull(executedScenario);
+        }
+    }
+
+    @Test
     public void test() throws IOException {
         List<ExecutedScenario> executedScenarios = new ReportParser(new File("src/test/resources/jsonreports")).parse();
         ExceptionCollator exceptionCollator = new ExceptionCollator(executedScenarios);

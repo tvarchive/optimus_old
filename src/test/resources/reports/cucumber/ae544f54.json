@@ -1,0 +1,306 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "before": [
+          {
+            "output": [
+              "ae544f54"
+            ],
+            "result": {
+              "duration": 79232823703,
+              "status": "passed"
+            },
+            "match": {
+              "location": "StartingSteps.setUp(Scenario)"
+            }
+          }
+        ],
+        "line": 41,
+        "name": "As an user I should be able to see list of flights",
+        "description": "",
+        "id": "book-a-flight-seat;as-an-user-i-should-be-able-to-see-list-of-flights",
+        "after": [
+          {
+            "output": [
+              "ae544f54"
+            ],
+            "result": {
+              "duration": 12484508109,
+              "status": "passed"
+            },
+            "match": {
+              "location": "StartingSteps.tearDown(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 1391164252,
+              "status": "passed"
+            },
+            "line": 42,
+            "name": "user on splash screen taps on skip",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "splash",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 22
+                },
+                {
+                  "val": "skip",
+                  "offset": 30
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 3539165663,
+              "status": "passed"
+            },
+            "line": 43,
+            "name": "user on home screen taps on flights",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "home",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 20
+                },
+                {
+                  "val": "flights",
+                  "offset": 28
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 1941469687,
+              "status": "passed"
+            },
+            "line": 44,
+            "name": "user on search screen taps on depCity",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 22
+                },
+                {
+                  "val": "depCity",
+                  "offset": 30
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 13773701254,
+              "status": "passed"
+            },
+            "line": 45,
+            "name": "user on search screen types on city value Mumbai",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "types",
+                  "offset": 22
+                },
+                {
+                  "val": "city",
+                  "offset": 31
+                },
+                {
+                  "val": "Mumbai",
+                  "offset": 42
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElementWithValue(String,String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 1373245281,
+              "status": "passed"
+            },
+            "line": 46,
+            "name": "user on search screen taps on cityList",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 22
+                },
+                {
+                  "val": "cityList",
+                  "offset": 30
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 2101529039,
+              "status": "passed"
+            },
+            "line": 47,
+            "name": "user on search screen taps on arrCity",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 22
+                },
+                {
+                  "val": "arrCity",
+                  "offset": 30
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 13252834384,
+              "status": "passed"
+            },
+            "line": 48,
+            "name": "user on search screen types on city value New Delhi",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "types",
+                  "offset": 22
+                },
+                {
+                  "val": "city",
+                  "offset": 31
+                },
+                {
+                  "val": "New Delhi",
+                  "offset": 42
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElementWithValue(String,String,String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 1260364954,
+              "status": "passed"
+            },
+            "line": 49,
+            "name": "user on search screen taps on cityList",
+            "match": {
+              "arguments": [
+                {
+                  "val": "user",
+                  "offset": 0
+                },
+                {
+                  "val": "search",
+                  "offset": 8
+                },
+                {
+                  "val": "taps",
+                  "offset": 22
+                },
+                {
+                  "val": "cityList",
+                  "offset": 30
+                }
+              ],
+              "location": "GenericSteps.consumerOnScreenPerformsActionOnElement(String,String,String,String)"
+            },
+            "keyword": "And "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@flightList"
+          },
+          {
+            "name": "@28sep"
+          }
+        ]
+      }
+    ],
+    "name": "Book a Flight seat",
+    "description": "",
+    "id": "book-a-flight-seat",
+    "keyword": "Feature",
+    "uri": "/Users/testvagrantserver/Documents/OptimusTestData/makemytrip-2.0/src/test/resources/features/MMT.feature"
+  }
+]
