@@ -26,7 +26,6 @@ import com.testvagrant.commons.entities.reportParser.Feature;
 import com.testvagrant.commons.entities.reportParser.Step;
 import com.testvagrant.optimus.builder.ScenarioBuilder;
 import com.testvagrant.optimus.builder.StepBuilder;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +64,7 @@ public class ReportParser {
 
                     for (JsonElement element : scenarioArray) {
                         if (!isBackground(element)) {
-                            String id = element.getAsJsonObject().get("id").getAsString();
+                            String id = getId(element);
                             String deviceName = element.getAsJsonObject().get("before").getAsJsonArray().get(0).getAsJsonObject()
                                     .get("output").getAsJsonArray().get(0).getAsString();
                             JsonArray scenarioSteps = element.getAsJsonObject().get("steps").getAsJsonArray();
@@ -170,6 +169,14 @@ public class ReportParser {
                 .withStatus(status)
                 .withErrorMessage(error_message)
                 .build();
+    }
+
+
+    private String getId(JsonElement jsonElement) {
+        JsonObject scenarioObject = jsonElement.getAsJsonObject();
+        String scenarioName = scenarioObject.get("name").getAsString().replaceAll(" ","-");
+        String lineNumber = scenarioObject.get("line").getAsString();
+        return scenarioName+"-"+lineNumber;
     }
 
 
