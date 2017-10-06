@@ -82,7 +82,7 @@ public class ReportParser {
                                         .withId(id)
                                         .withSteps(stepList)
                                         .withDeviceName(deviceName)
-                                        .withEmbeddedScreen(getEmbeddedScreenshot(scenarioSteps))
+                                        .withEmbeddedScreen(getEmbeddedScreenshot(element))
                                         .build());
                             }
                         }
@@ -110,10 +110,10 @@ public class ReportParser {
         return outputArray.get(outputArray.size() - 1).getAsString();
     }
 
-    private byte[] getEmbeddedScreenshot(JsonArray steps) {
-        JsonElement lastStep = steps.get(steps.size() - 1);
-        if (lastStep.getAsJsonObject().has("embeddings")) {
-            JsonArray embeddings = lastStep.getAsJsonObject().get("embeddings").getAsJsonArray();
+    private byte[] getEmbeddedScreenshot(JsonElement element) {
+        JsonObject after = element.getAsJsonObject().get("after").getAsJsonArray().get(0).getAsJsonObject();
+        if (after.has("embedding")) {
+            JsonArray embeddings = after.getAsJsonObject().get("embedding").getAsJsonArray();
             String data = embeddings.get(0).getAsJsonObject().get("data").getAsString();
             return Base64.getDecoder().decode(data);
         }
@@ -174,9 +174,9 @@ public class ReportParser {
 
     private String getId(JsonElement jsonElement) {
         JsonObject scenarioObject = jsonElement.getAsJsonObject();
-        String scenarioName = scenarioObject.get("name").getAsString().replaceAll(" ","-");
+        String scenarioName = scenarioObject.get("name").getAsString().replaceAll(" ", "-");
         String lineNumber = scenarioObject.get("line").getAsString();
-        return scenarioName+"-"+lineNumber;
+        return scenarioName + "-" + lineNumber;
     }
 
 
