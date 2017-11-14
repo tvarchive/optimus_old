@@ -63,28 +63,33 @@ public class ReportParser {
                     List<Step> backgroundStepsList = getBackgroundStepsIfPresent(feature);
 
                     for (JsonElement element : scenarioArray) {
-                        if (!isBackground(element)) {
-                            String id = getId(element);
-                            String deviceName = element.getAsJsonObject().get("before").getAsJsonArray().get(0).getAsJsonObject()
-                                    .get("output").getAsJsonArray().get(0).getAsString();
-                            JsonArray scenarioSteps = element.getAsJsonObject().get("steps").getAsJsonArray();
-                            List<Step> stepList = new ArrayList<>();
-                            stepList.addAll(backgroundStepsList);
-                            for (JsonElement step : scenarioSteps) {
-                                stepList.add(getStepDetails(step));
-                            }
+                        try {
+                            if (!isBackground(element)) {
+                                String id = getId(element);
+                                String deviceName = element.getAsJsonObject().get("before").getAsJsonArray().get(0).getAsJsonObject()
+                                        .get("output").getAsJsonArray().get(0).getAsString();
+                                JsonArray scenarioSteps = element.getAsJsonObject().get("steps").getAsJsonArray();
+                                List<Step> stepList = new ArrayList<>();
+                                stepList.addAll(backgroundStepsList);
+                                for (JsonElement step : scenarioSteps) {
+                                    stepList.add(getStepDetails(step));
+                                }
 
-                            System.out.println("Scenario - " + id);
-                            System.out.println("Step count for this scenario - " + stepList.size());
+                                System.out.println("Scenario - " + id);
+                                System.out.println("Step count for this scenario - " + stepList.size());
 
-                            if (scenarioSteps.size() > 0) {
-                                scenarios.add(new ScenarioBuilder()
-                                        .withId(id)
-                                        .withSteps(stepList)
-                                        .withDeviceName(deviceName)
-                                        .withEmbeddedScreen(getEmbeddedScreenshot(element))
-                                        .build());
+                                if (scenarioSteps.size() > 0) {
+                                    scenarios.add(new ScenarioBuilder()
+                                            .withId(id)
+                                            .withSteps(stepList)
+                                            .withDeviceName(deviceName)
+                                            .withEmbeddedScreen(getEmbeddedScreenshot(element))
+                                            .build());
+                                }
                             }
+                        } catch (Exception e) {
+                            // sometimes the report doesn't have output block
+                            e.printStackTrace();
                         }
                     }
                 }
