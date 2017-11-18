@@ -117,8 +117,8 @@ public class ReportParser {
 
     private byte[] getEmbeddedScreenshot(JsonElement element) {
         JsonObject after = element.getAsJsonObject().get("after").getAsJsonArray().get(0).getAsJsonObject();
-        if (after.has("embedding")) {
-            JsonArray embeddings = after.getAsJsonObject().get("embedding").getAsJsonArray();
+        if (after.has("embeddings")) {
+            JsonArray embeddings = after.getAsJsonObject().get("embeddings").getAsJsonArray();
             String data = embeddings.get(0).getAsJsonObject().get("data").getAsString();
             return Base64.getDecoder().decode(data);
         }

@@ -20,6 +20,7 @@ package com.testvagrant.optimus.utils;
 import com.testvagrant.commons.entities.SmartBOT;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.apache.commons.exec.OS;
@@ -35,6 +36,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
 
 import static com.testvagrant.optimus.utils.Commands.FBSimctl.RECORDVIDEO_XCODE8;
@@ -224,7 +226,11 @@ public class OnDevice {
     }
 
     protected void swipeFromTo(WebElement startElement, WebElement stopElement) {
-        driver.swipe(startElement.getLocation().getX(), startElement.getLocation().getY(), stopElement.getLocation().getX(), stopElement.getLocation().getY(), 1000);
+//        driver.swipe(startElement.getLocation().getX(), startElement.getLocation().getY(), stopElement.getLocation().getX(), stopElement.getLocation().getY(), 1000);
+        new TouchAction(driver).press(startElement.getLocation().getX(), startElement.getLocation().getY())
+                .waitAction(Duration.ofMillis(1000))
+                .moveTo(stopElement.getLocation().getX(), stopElement.getLocation().getY())
+                .release().perform();
     }
 
     private void recordAndroidVideo(String fileName) {
@@ -239,9 +245,8 @@ public class OnDevice {
     }
 
     private void killprocess(String pid) throws IOException {
-        Runtime.getRuntime().exec("kill "+pid);
+        Runtime.getRuntime().exec("kill " + pid);
     }
-
 
 
 }

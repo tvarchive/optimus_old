@@ -3,7 +3,8 @@ build
 .gradle
 gradle
 out
-optimus.iml
+*.iml
 gradle.properties
+
 
 
