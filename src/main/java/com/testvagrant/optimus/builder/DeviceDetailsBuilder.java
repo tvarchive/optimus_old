@@ -20,7 +20,6 @@ package com.testvagrant.optimus.builder;
 
 import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.entities.device.DeviceType;
-import com.testvagrant.commons.entities.device.OSVersion;
 import com.testvagrant.commons.entities.device.Platform;
 import com.testvagrant.commons.entities.device.Status;
 
@@ -49,7 +48,7 @@ public class DeviceDetailsBuilder {
         return this;
     }
 
-    public DeviceDetailsBuilder withPlatformVersion(OSVersion platformVersion) {
+    public DeviceDetailsBuilder withPlatformVersion(String platformVersion) {
         deviceDetails.setOsVersion(platformVersion);
         return this;
     }

@@ -28,6 +28,7 @@ import com.testvagrant.optimus.builder.SmartBOTBuilder;
 import com.testvagrant.optimus.parser.OptimusConfigParser;
 import com.testvagrant.optimus.utils.AppiumServerManager;
 import com.testvagrant.optimus.utils.OnDevice;
+import com.testvagrant.optimus.utils.RunProperties;
 import cucumber.api.Scenario;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
@@ -233,7 +234,9 @@ public class OptimusController {
     }
 
     private static AppiumDriver setUpDevice(URL url, DesiredCapabilities capabilities) throws MalformedURLException {
-
+        if(RunProperties.isDevMode()) {
+            capabilities.setCapability("noReset",true);
+        }
         if (capabilities.getCapability("platformName").toString().equalsIgnoreCase("Android")) {
             return new AndroidDriver(url, capabilities);
         }

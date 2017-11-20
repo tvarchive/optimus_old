@@ -21,8 +21,6 @@ import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.entities.device.DeviceType;
 import com.testvagrant.commons.entities.device.OSVersion;
 import com.testvagrant.commons.entities.device.Platform;
-import com.testvagrant.mdb.enums.AOSVersion;
-import com.testvagrant.mdb.enums.IOSVersion;
 import com.testvagrant.mdb.enums.Version;
 import com.testvagrant.optimus.builder.DeviceDetailsBuilder;
 import com.testvagrant.optimus.utils.DeviceMatrix;
@@ -69,24 +67,24 @@ public class OptimusTestBase {
         DeviceDetails androidEmulatorOne = new DeviceDetailsBuilder().withUDID("123").withPlatform(Platform.ANDROID)
                 .withRunsOn(DeviceType.EMULATOR)
                 .withDeviceName("Samsung Galaxy")
-                .withPlatformVersion(getOSVersion(AOSVersion.LOLLIPOP, "5.0")).build();
+                .withPlatformVersion("5.0").build();
         DeviceDetails androidEmulatorTwo = new DeviceDetailsBuilder().withUDID("789").withPlatform(Platform.ANDROID)
                 .withRunsOn(DeviceType.EMULATOR)
                 .withDeviceName("Redmi")
-                .withPlatformVersion(getOSVersion(AOSVersion.MARSHMALLOW, "6.0")).build();
+                .withPlatformVersion("6.0").build();
         DeviceDetails androidDeviceOne = new DeviceDetailsBuilder().withUDID("234").withPlatform(Platform.ANDROID)
                 .withRunsOn(DeviceType.DEVICE).withDeviceName("Android")
-                .withPlatformVersion(getOSVersion(AOSVersion.NOUGAT,"7.0")).build();
+                .withPlatformVersion("7.0").build();
         DeviceDetails androidDeviceTwo = new DeviceDetailsBuilder().withUDID("456").withPlatform(Platform.ANDROID)
                 .withRunsOn(DeviceType.DEVICE)
                 .withDeviceName("Motorola")
-                .withPlatformVersion(getOSVersion(AOSVersion.NOUGAT, "7.0")).build();
+                .withPlatformVersion("7.0").build();
         DeviceDetails iosSimulator = new DeviceDetailsBuilder().withUDID("1234-1234-1234").withPlatform(Platform.IOS)
                 .withRunsOn(DeviceType.SIMULATOR).withDeviceName("iPhone 6")
-                .withPlatformVersion(getOSVersion(IOSVersion.EAGLE, "9.3")).build();
+                .withPlatformVersion("9.3").build();
         DeviceDetails iosDevice = new DeviceDetailsBuilder().withUDID("1234-1234-1234").withPlatform(Platform.IOS)
                 .withRunsOn(DeviceType.DEVICE).withDeviceName("iPhone 6")
-                .withPlatformVersion(getOSVersion(IOSVersion.WHITETAIL, "10.0")).build();
+                .withPlatformVersion("10.0").build();
 
         mockedDevices.addAll(Arrays.asList(androidEmulatorOne, androidEmulatorTwo));
         mockedDevices.addAll(Arrays.asList(androidDeviceOne, androidDeviceTwo));

@@ -13,7 +13,6 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
-    mavenLocal()
 }
 
 
@@ -22,7 +21,7 @@ dependencies {
 //    compile group: 'org.redisson', name: 'redisson', version: '2.3.0'
     compile group: 'org.mockito', name: 'mockito-core', version: '2.1.0-RC.1'
     compile group: 'org.codehaus.jackson', name: 'jackson-jaxrs', version: '1.8.5'
-//    compile 'io.appium:java-client:4.0.0'
+    compile 'io.appium:java-client:4.0.0'
     compile group: 'com.jayway.awaitility', name: 'awaitility', version: '1.7.0'
     compile group: 'org.json', name: 'json', version: '20160810'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
@@ -32,7 +31,7 @@ dependencies {
     compile('com.testvagrant.optimusMonitor:optimusMonitor:2.0.1-SNAPSHOT')
 //    compile('com.testvagrant.devicemanagement:devicemanagement:1.0.4')
 
-//    compile 'com.testvagrant.mdb:mdb:1.0.6'
+    compile 'com.testvagrant.mdb:mdb:2.0-SNAPSHOT'
     compile group: 'org.apache.opennlp', name: 'opennlp-tools', version: '1.6.0'
     compile group: 'org.apache.opennlp', name: 'opennlp-uima', version: '1.6.0'
 
