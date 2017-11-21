@@ -115,11 +115,15 @@ public class OptimusController {
 
         for (SmartBOT engagedBOT : smartBOTs) {
             //TODO: Crashes throw array out of bounds exception if the stacktrace does not include an exception by app package.
-//            if (!engagedBOT.getRunsOn().equalsIgnoreCase("EMULATOR")) {
-////                new CrashMonitor(engagedBOT).captureCrashes();
-//
-//
-//  }
+            try {
+                if (!engagedBOT.getRunsOn().equalsIgnoreCase("EMULATOR")) {
+                    new CrashMonitor(engagedBOT).captureCrashes();
+
+
+                }
+            }  catch (Exception e) {
+                //ignoring exception for arrayout of bounds thing
+            }
             try {
                 scenario.write(engagedBOT.getDeviceUdid());
                 logger.info(scenario + "---" + "The following BOT de-registered successfully -- " + engagedBOT.getDeviceUdid());
@@ -157,11 +161,6 @@ public class OptimusController {
             String uniqueScenarioName = new ScenarioHelper(scenario).getUniqueScenarioName();
             AppiumDriverLocalService appiumService = new AppiumServerManager(optimusConfigParser.getExecutionDetails())
                     .startAppiumService(uniqueScenarioName, udid);
-
-            if (platformIOS(entry.getValue())) {
-                executeCommand(String.format("fbsimctl %s boot", udid));
-//                executeCommand(String.format("xcrun simctl %s boot", udid));
-            }
 
             AppiumDriver driver = addDriver(appiumService.getUrl(), entry.getValue());
             logger.info(uniqueScenarioName + "--" + "driver instance created for " + udid);
