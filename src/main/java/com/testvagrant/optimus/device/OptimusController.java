@@ -22,6 +22,7 @@ import com.testvagrant.commons.entities.SmartBOT;
 import com.testvagrant.commons.exceptions.DeviceEngagedException;
 import com.testvagrant.commons.exceptions.DeviceMatchingException;
 import com.testvagrant.commons.helpers.ScenarioHelper;
+import com.testvagrant.monitor.performance.CrashMonitor;
 import com.testvagrant.monitor.radiator.MongoReader;
 import com.testvagrant.monitor.radiator.MongoWriter;
 import com.testvagrant.optimus.builder.SmartBOTBuilder;
