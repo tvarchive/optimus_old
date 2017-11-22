@@ -18,24 +18,18 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-//    compile group: 'org.redisson', name: 'redisson', version: '2.3.0'
     compile group: 'org.mockito', name: 'mockito-core', version: '2.1.0-RC.1'
     compile group: 'org.codehaus.jackson', name: 'jackson-jaxrs', version: '1.8.5'
-    compile 'io.appium:java-client:4.0.0'
+
     compile group: 'com.jayway.awaitility', name: 'awaitility', version: '1.7.0'
     compile group: 'org.json', name: 'json', version: '20160810'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
+    compile('com.testvagrant.optimusMonitor:optimusMonitor:2.2.1')
 
-    compile('com.testvagrant.optimusMonitor:optimusMonitor:2.0.1-SNAPSHOT')
-//    compile('com.testvagrant.devicemanagement:devicemanagement:1.0.4')
-
-    compile 'com.testvagrant.mdb:mdb:2.0-SNAPSHOT'
     compile group: 'org.apache.opennlp', name: 'opennlp-tools', version: '1.6.0'
     compile group: 'org.apache.opennlp', name: 'opennlp-uima', version: '1.6.0'
-
-
 }
 
 task javadocJar(type: Jar) {
@@ -56,52 +50,51 @@ signing {
     sign configurations.archives
 }
 
-//group = "com.testvagrant"
-//archivesBaseName = "optimus"
-//version = "2.2.0"
+group = "com.testvagrant"
+archivesBaseName = "optimus"
+version = "2.2.1"
 
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            pom.project {
-//                name 'Optimus'
-//                packaging 'jar'
-//                // optionally artifactId can be defined here
-//                description 'The optimus core project that manages smart bots and their functioning for test scenarios'
-//                url 'https://github.com/testvagrant/optimus'
-//
-//                scm {
-//                    connection 'scm:https://github.com/testvagrant/optimus.git'
-////                    developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
-//                    url 'https://github.com/testvagrant/optimus'
-//                }
-//
-//                licenses {
-//                    license {
-//                        name 'The Apache License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id 'sukesh'
-//                        name 'Sukesh Kumar'
-//                        email 'sukesh@testvagrant.com'
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Optimus'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'The optimus core project that manages smart bots and their functioning for test scenarios'
+                url 'https://github.com/testvagrant/optimus'
+
+                scm {
+                    connection 'scm:https://github.com/testvagrant/optimus.git'
+                    url 'https://github.com/testvagrant/optimus'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'sukesh'
+                        name 'Sukesh Kumar'
+                        email 'sukesh@testvagrant.com'
+                    }
+                }
+            }
+        }
+    }
+}
 
 
