@@ -33,6 +33,7 @@ import java.util.Map;
 public class ReportMain {
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Parsing report");
         List<ExecutedScenario> scenarios = new ReportParser(new File("build/reports/cucumber")).parse();
         if(monitoringIsOn()) {
             new MongoWriter().updateExecutionDetailsFor(scenarios);

@@ -47,7 +47,7 @@ public class ReportParser {
     public List<ExecutedScenario> parse() throws IOException {
 
         File[] files = reportFolder.listFiles();
-
+        System.out.println("Files found"+files);
         List<ExecutedScenario> scenarios = new ArrayList<>();
 
         for (File file : files) {

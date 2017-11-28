@@ -160,7 +160,7 @@ public class OptimusController {
             String udid = (String) entry.getValue().getCapability("udid");
 
             String uniqueScenarioName = new ScenarioHelper(scenario).getUniqueScenarioName();
-            AppiumDriverLocalService appiumService = new AppiumServerManager(optimusConfigParser.getExecutionDetails())
+            AppiumDriverLocalService appiumService = new AppiumServerManager(optimusConfigParser)
                     .startAppiumService(uniqueScenarioName, udid);
 
             AppiumDriver driver = addDriver(appiumService.getUrl(), entry.getValue());

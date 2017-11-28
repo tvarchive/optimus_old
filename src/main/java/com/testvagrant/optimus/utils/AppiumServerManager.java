@@ -18,11 +18,10 @@
 package com.testvagrant.optimus.utils;
 
 import com.testvagrant.optimus.entity.ExecutionDetails;
+import com.testvagrant.optimus.parser.OptimusConfigParser;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.appium.java_client.service.local.flags.ServerArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,22 +35,27 @@ public class AppiumServerManager {
 
 
     private ExecutionDetails executionDetails;
+    private boolean isAndroid;
 
-    public AppiumServerManager(ExecutionDetails executionDetails) {
-        this.executionDetails = executionDetails;
+    public AppiumServerManager(OptimusConfigParser configParser) {
+        this.executionDetails = configParser.getExecutionDetails();
+        this.isAndroid = configParser.isForAndroid();
     }
 
 
     public AppiumDriverLocalService startAppiumService(String scenarioName, String udid) {
         AppiumDriverLocalService appiumService;
-        appiumService = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+        AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
                 .usingDriverExecutable(new File(executionDetails.getAppium_node_path()))
                 .withAppiumJS(new File(executionDetails.getAppium_js_path()))
                 .withIPAddress("127.0.0.1")
                 .usingAnyFreePort()
                 .withArgument(SESSION_OVERRIDE)
-                .withLogFile(new File(String.format("build/%s.log", scenarioName + "_" + udid))));
-
+                .withLogFile(new File(String.format("build/%s.log", scenarioName + "_" + udid)));
+        if(isAndroid) {
+            appiumServiceBuilder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, String.valueOf(aRandomOpenPortOnAllLocalInterfaces()));
+        }
+        appiumService = AppiumDriverLocalService.buildService(appiumServiceBuilder);
         appiumService.start();
 
         await().atMost(5, TimeUnit.SECONDS).until(() -> appiumService.isRunning());
