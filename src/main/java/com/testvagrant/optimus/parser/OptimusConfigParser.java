@@ -49,7 +49,9 @@ public class OptimusConfigParser {
     }
 
     public boolean isMonitoring() {
-        return true;
+        if (jsonObject.getJSONObject(EXEC_DETAILS).has(MONITORING))
+            return jsonObject.getJSONObject(EXEC_DETAILS).getBoolean(MONITORING);
+        return false;
     }
 
     public HashMap<String, DesiredCapabilities> mapOwnerToDesiredCapabilities() throws IOException, DeviceEngagedException {
