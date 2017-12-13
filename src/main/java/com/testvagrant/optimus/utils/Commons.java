@@ -29,4 +29,5 @@ public class Commons {
         String udid = appiumServerCapabilities.getString("udid");
         return udid;
     }
+
 }

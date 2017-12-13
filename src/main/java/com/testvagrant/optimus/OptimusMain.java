@@ -19,6 +19,8 @@ package com.testvagrant.optimus;
 
 import com.testvagrant.monitor.MongoMain;
 import com.testvagrant.monitor.exceptions.MongoInstanceException;
+import com.testvagrant.monitor.utils.MongoRunConfiguration;
+import com.testvagrant.optimus.parser.OptimusConfigParser;
 import com.testvagrant.optimus.register.DeviceRegistrar;
 import com.testvagrant.optimus.utils.DeviceMatrix;
 
@@ -27,14 +29,22 @@ public class OptimusMain {
     public static void init(String testFeed) throws MongoInstanceException {
         String setupCompleted = System.getProperty("setupCompleted");
         if(setupCompleted==null) {
+            setupRunConfiguration(testFeed);
             MongoMain.main(new String[]{});
             new DeviceRegistrar().setUpDevices(new DeviceMatrix(testFeed));
         }
+    }
+
+    public static void setupRunConfiguration(String testFeed) {
+        String runConfig = new OptimusConfigParser(testFeed).getExecutionDetails().getRunConfig();
+        new MongoRunConfiguration(runConfig);
     }
 
     public static void main(String[] args) {
         new DeviceRegistrar().setUpDevices(new DeviceMatrix(args[0]));
         System.exit(0);
     }
+
+
 
 }

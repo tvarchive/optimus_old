@@ -42,7 +42,7 @@ public class TestFeedParserTest extends OptimusTestBase {
     @Test
     public void foo() throws IOException {
         String appJson = getAppJson("singleApp_Local_Sequential_Android_Minimal_Capabilities.json");
-//        System.out.println(appJson);
+//        System.out.println(appJsonWithRunConfig);
 
 
         JSONObject jsonObject = new JSONObject(appJson);

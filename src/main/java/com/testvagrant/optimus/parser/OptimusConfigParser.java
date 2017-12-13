@@ -1,5 +1,8 @@
 package com.testvagrant.optimus.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.exceptions.DeviceEngagedException;
 import com.testvagrant.optimus.builder.CapabilitiesBuilder;
@@ -20,16 +23,17 @@ import static com.testvagrant.optimus.parser.TestFeedConstants.*;
  */
 public class OptimusConfigParser {
     JSONObject jsonObject;
+    JsonObject jsonObjectSp;
 
     public OptimusConfigParser(String appJson) {
         jsonObject = new JSONObject(appJson);
+        jsonObjectSp = getObjectFromJson(appJson, JsonObject.class);
     }
 
 
+
     public ExecutionDetails getExecutionDetails() {
-        ExecutionDetails execDetails = new ExecutionDetails();
-        execDetails.setAppium_js_path(jsonObject.getJSONObject(EXEC_DETAILS).getString(APPIUM_JS_PATH));
-        execDetails.setAppium_node_path(jsonObject.getJSONObject(EXEC_DETAILS).getString(APPIUM_NODE_PATH));
+        ExecutionDetails execDetails = getObjectFromJson(jsonObjectSp.get(EXEC_DETAILS),ExecutionDetails.class);
         return execDetails;
     }
 
@@ -103,5 +107,14 @@ public class OptimusConfigParser {
 
         }
         throw new RuntimeException("No app found for -- " + appConsumer);
+    }
+
+
+    private <T> T getObjectFromJson(String appJson, Class<T> classOfT) {
+        return new Gson().fromJson(appJson, classOfT);
+    }
+
+    private <T> T getObjectFromJson(JsonElement jsonElement, Class<T> classOfT) {
+        return new Gson().fromJson(jsonElement, classOfT);
     }
 }

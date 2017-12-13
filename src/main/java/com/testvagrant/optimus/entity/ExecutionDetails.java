@@ -19,8 +19,9 @@ package com.testvagrant.optimus.entity;
 
 public class ExecutionDetails {
 
-    private String appium_js_path;
-    private String appium_node_path;
+    private String appium_js_path = "/usr/local/bin/appium";
+    private String appium_node_path = "/usr/local/bin/node";
+    private String runConfig = "default";
 
 
     public String getAppium_js_path() {
@@ -51,5 +52,11 @@ public class ExecutionDetails {
         this.sauce = sauce;
     }
 
+    public String getRunConfig() {
+        return runConfig;
+    }
 
+    public void setRunConfig(String runConfig) {
+        this.runConfig = runConfig;
+    }
 }

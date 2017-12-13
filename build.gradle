@@ -1,5 +1,5 @@
 group 'com.testvagrant'
-version '2.2.3-SNAPSHOT'
+version '2.2.4-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
@@ -27,75 +27,75 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.1'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
-    compile('com.testvagrant.optimusMonitor:optimusMonitor:2.2.2-SNAPSHOT')
+    compile('com.testvagrant.optimusMonitor:optimusMonitor:2.2.3-SNAPSHOT')
 
     compile group: 'org.apache.opennlp', name: 'opennlp-tools', version: '1.6.0'
     compile group: 'org.apache.opennlp', name: 'opennlp-uima', version: '1.6.0'
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-signing {
-    sign configurations.archives
-}
-
-group = "com.testvagrant"
-archivesBaseName = "optimus"
-version = "2.2.1"
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Optimus'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'The optimus core project that manages smart bots and their functioning for test scenarios'
-                url 'https://github.com/testvagrant/optimus'
-
-                scm {
-                    connection 'scm:https://github.com/testvagrant/optimus.git'
-                    url 'https://github.com/testvagrant/optimus'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'sukesh'
-                        name 'Sukesh Kumar'
-                        email 'sukesh@testvagrant.com'
-                    }
-                }
-            }
-        }
-    }
-}
+//task javadocJar(type: Jar) {
+//    classifier = 'javadoc'
+//    from javadoc
+//}
+//
+//task sourcesJar(type: Jar) {
+//    classifier = 'sources'
+//    from sourceSets.main.allSource
+//}
+//
+//artifacts {
+//    archives javadocJar, sourcesJar
+//}
+//
+//signing {
+//    sign configurations.archives
+//}
+//
+//group = "com.testvagrant"
+//archivesBaseName = "optimus"
+//version = "2.2.1"
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+//                authentication(userName: ossrhUsername, password: ossrhPassword)
+//            }
+//
+//            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+//                authentication(userName: ossrhUsername, password: ossrhPassword)
+//            }
+//
+//            pom.project {
+//                name 'Optimus'
+//                packaging 'jar'
+//                // optionally artifactId can be defined here
+//                description 'The optimus core project that manages smart bots and their functioning for test scenarios'
+//                url 'https://github.com/testvagrant/optimus'
+//
+//                scm {
+//                    connection 'scm:https://github.com/testvagrant/optimus.git'
+//                    url 'https://github.com/testvagrant/optimus'
+//                }
+//
+//                licenses {
+//                    license {
+//                        name 'The Apache License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'sukesh'
+//                        name 'Sukesh Kumar'
+//                        email 'sukesh@testvagrant.com'
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 

@@ -46,8 +46,8 @@ public class AppiumServerManager {
     public AppiumDriverLocalService startAppiumService(String scenarioName, String udid) {
         AppiumDriverLocalService appiumService;
         AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
-                .usingDriverExecutable(new File(executionDetails.getAppium_node_path()))
-                .withAppiumJS(new File(executionDetails.getAppium_js_path()))
+                .usingDriverExecutable(new File("/usr/bin/node"))
+                .withAppiumJS(new File("/usr/bin/appium"))
                 .withIPAddress("127.0.0.1")
                 .usingAnyFreePort()
                 .withArgument(SESSION_OVERRIDE)
