@@ -19,7 +19,6 @@ package com.testvagrant.optimus.updater;
 
 import com.testvagrant.commons.entities.DeviceDetails;
 import com.testvagrant.commons.entities.device.Platform;
-import com.testvagrant.commons.exceptions.DeviceMatchingException;
 import com.testvagrant.commons.exceptions.OptimusException;
 import com.testvagrant.mdb.enums.AOSVersion;
 import com.testvagrant.optimus.device.OptimusTestBase;
@@ -57,7 +56,7 @@ public class DeviceMinerTest extends OptimusTestBase {
                 (JSONObject) getTestFeedArrayFromAppJson("singleApp_Local_Sequential_Android_PlatformVersion.json").get(0));
         DeviceDetails availableDevice = deviceMiner.getAvailableDevice();
         assertEquals(Platform.ANDROID, availableDevice.getPlatform());
-        assertEquals(AOSVersion.LOLLIPOP, availableDevice.getOsVersion());
+        assertEquals(AOSVersion.LOLLIPOP, availableDevice.getPlatformVersion());
     }
 
     @Test
@@ -95,7 +94,7 @@ public class DeviceMinerTest extends OptimusTestBase {
                 (JSONObject) getTestFeedArrayFromAppJson("singleApp_Local_Sequential_Android_DeviceName_PlatformVersion.json").get(0));
         DeviceDetails availableDevice = deviceMiner.getAvailableDevice();
         assertEquals(Platform.ANDROID, availableDevice.getPlatform());
-        assertEquals(AOSVersion.MARSHMALLOW, availableDevice.getOsVersion());
+        assertEquals(AOSVersion.MARSHMALLOW, availableDevice.getPlatformVersion());
         assertEquals("Redmi", availableDevice.getDeviceName());
     }
 

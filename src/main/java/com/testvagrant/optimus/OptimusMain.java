@@ -19,7 +19,6 @@ package com.testvagrant.optimus;
 
 import com.testvagrant.monitor.MongoMain;
 import com.testvagrant.monitor.exceptions.MongoInstanceException;
-import com.testvagrant.monitor.utils.MongoRunConfiguration;
 import com.testvagrant.optimus.parser.OptimusConfigParser;
 import com.testvagrant.optimus.register.DeviceRegistrar;
 import com.testvagrant.optimus.utils.DeviceMatrix;
@@ -37,7 +36,7 @@ public class OptimusMain {
 
     public static void setupRunConfiguration(String testFeed) {
         String runConfig = new OptimusConfigParser(testFeed).getExecutionDetails().getRunConfig();
-        new MongoRunConfiguration(runConfig);
+//        new MongoRunConfiguration(runConfig);
     }
 
     public static void main(String[] args) {

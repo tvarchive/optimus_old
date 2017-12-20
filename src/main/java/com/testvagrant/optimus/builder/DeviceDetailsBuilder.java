@@ -35,7 +35,7 @@ public class DeviceDetailsBuilder {
     public DeviceDetailsBuilder() {
         deviceDetails.setStatus(Status.Available);
         deviceDetails.setPlatform(Platform.ANDROID);
-        deviceDetails.setDeviceType(DeviceType.EMULATOR);
+        deviceDetails.setRunsOn(DeviceType.EMULATOR);
     }
 
     public DeviceDetails build() {
@@ -49,7 +49,7 @@ public class DeviceDetailsBuilder {
     }
 
     public DeviceDetailsBuilder withPlatformVersion(String platformVersion) {
-        deviceDetails.setOsVersion(platformVersion);
+        deviceDetails.setPlatformVersion(platformVersion);
         return this;
     }
 
@@ -65,7 +65,7 @@ public class DeviceDetailsBuilder {
     }
 
     public DeviceDetailsBuilder withRunsOn(DeviceType runsOn) {
-        deviceDetails.setDeviceType(runsOn);
+        deviceDetails.setRunsOn(runsOn);
         return this;
     }
 }

@@ -22,6 +22,7 @@ import com.testvagrant.commons.entities.SmartBOT;
 import com.testvagrant.commons.exceptions.DeviceEngagedException;
 import com.testvagrant.commons.exceptions.DeviceMatchingException;
 import com.testvagrant.commons.helpers.ScenarioHelper;
+import com.testvagrant.monitor.exceptions.DeviceReleaseException;
 import com.testvagrant.monitor.performance.CrashMonitor;
 import com.testvagrant.monitor.radiator.MongoReader;
 import com.testvagrant.monitor.radiator.MongoWriter;
@@ -111,7 +112,7 @@ public class OptimusController {
     }
 
 
-    public void deRegisterSmartBOTs(List<SmartBOT> smartBOTs) {
+    public void deRegisterSmartBOTs(List<SmartBOT> smartBOTs) throws DeviceReleaseException {
         stopScenarioListernerIfMonitoring(smartBOTs);
 
         for (SmartBOT engagedBOT : smartBOTs) {
@@ -205,7 +206,7 @@ public class OptimusController {
         DeviceDetails deviceByUdid = null;
         deviceByUdid = new MongoReader().getDeviceByUdid(udid);
         System.out.println("DeviceName" + deviceByUdid.getDeviceName());
-        return deviceByUdid.getDeviceType().name();
+        return deviceByUdid.getRunsOn().name();
 
     }
 

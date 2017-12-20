@@ -136,7 +136,7 @@ public class DeviceMiner {
 
     private ArrayList<DeviceDetails> filterDevicesRunningOn(DeviceType runsOn) {
         return deviceDetails.stream()
-                .filter(d -> d.getDeviceType().equals(runsOn))
+                .filter(d -> d.getRunsOn().equals(runsOn))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -171,7 +171,7 @@ public class DeviceMiner {
         return deviceDetails.stream()
                 .filter(d -> {
                     OSVersion version = new Commons().getOSVersion(platformVersion, d.getPlatform());
-                    return d.getOsVersion().equals(version);
+                    return d.getPlatformVersion().equals(version);
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
